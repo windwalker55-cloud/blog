@@ -1,13 +1,22 @@
 const { Pool } = require("pg");
 require("dotenv").config();
 
+// Check if DATABASE_URL exists
+const databaseUrl = process.env.DATABASE_URL;
+
+if (!databaseUrl) {
+    console.error('❌ DATABASE_URL is not set in environment variables');
+    console.error('Please add DATABASE_URL to your Render environment variables');
+    process.exit(1);
+}
+
 const db = new Pool({
-    connectionString: process.env.DATABASE_URL,
+    connectionString: databaseUrl,
     max: 20,
     idleTimeoutMillis: 30000,
-    connectionTimeoutMillis: 30000, // Increased from 5000 to 30000
-    ssl: process.env.DATABASE_URL.includes('localhost') ? false : {
-        rejectUnauthorized: false // For remote databases (Supabase, Neon, etc.)
+    connectionTimeoutMillis: 30000,
+    ssl: databaseUrl.includes('localhost') ? false : {
+        rejectUnauthorized: false
     }
 });
 
