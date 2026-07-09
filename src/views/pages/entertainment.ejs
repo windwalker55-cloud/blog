@@ -1,0 +1,75 @@
+<link rel="stylesheet" href="styles/homepageNewsDisplay.css">
+
+<div class="wrap">
+ 
+  <section class="front">
+    <div class="lead-story">
+      <div class="photo" data-cap="<%= randomCaurosel.title %>" style="height:420px;">
+        <img src="<%= randomCaurosel.image_url %>" alt="<%= randomCaurosel.title %>">
+      </div>
+      <span class="eyebrow tag-econ"><%= randomCaurosel.category %></span>
+      <h1><a href="/news/<%= randomCaurosel.dataid %>"><%= randomCaurosel.title %></a></h1>
+      <p class="dek"><%= randomCaurosel.content %></p>
+      <p class="byline">· <%= randomCaurosel.category %> Desk · 6 min read</p>
+    </div>
+ 
+    <aside>
+      <div class="sidebar-block">
+        <h4 class="sidebar-head">Most read</h4>
+        <ol class="ranked-list" id="rankedList">
+          <% if (randomFive && randomFive.length > 0) { %>
+            <% randomFive.forEach(function(item) { %>
+              <li>
+                <div>
+                  <h4><a href="/news/<%= item.dataid %>"><%= item.title %></a></h4>
+                  <span><%= item.category %></span>
+                </div>
+              </li>
+            <% }); %>
+          <% } else { %>
+            <li style="padding: 1rem 0; color: var(--grey);">No articles available</li>
+          <% } %>
+        </ol>
+      </div>
+    </aside>
+  </section>
+
+  <div class="toolbar-row">
+    <div class="toolbar-left">
+      <h2>Entertainment News</h2>
+      <div class="search-box">
+        <i class="fas fa-search"></i>
+        <input type="text" id="searchInput" placeholder="Search articles…">
+      </div>
+    </div>
+    <button class="reload-btn" id="reloadBtn">
+      <i class="fas fa-sync-alt"></i> Refresh
+    </button>
+  </div>
+  
+  <section class="section-row" id="home">
+    <div class="card-grid" id="cardGrid">
+      <% if (result && result.length > 0) { %>
+        <% const entertainmentItems = result.filter(function(item) { return item.category === 'entertainment' || item.category === 'Entertainment'; }); %>
+        <% entertainmentItems.forEach(function(item) { %>
+          <div class="card" data-title="<%= item.title.toLowerCase() %>">
+            <div class="photo" data-cap="<%= item.category %>">
+              <img src="<%= item.image_url %>" alt="<%= item.title %>">
+            </div>
+            <span class="eyebrow tag-world"><%= item.category %></span>
+            <h3><a href="/news/<%= item.dataid %>"><%= item.title %></a></h3>
+            <p><a href="/news/<%= item.dataid %>"><%= item.title %></a></p>
+          </div>
+        <% }); %>
+      <% } %>
+    </div>
+
+    <div class="loading-spinner" id="loadingSpinner">
+      <i class="fas fa-spinner fa-spin"></i>
+      Loading more stories...
+    </div>
+  </section>
+ 
+</div>
+
+<script src="js/entertainment.js"></script>

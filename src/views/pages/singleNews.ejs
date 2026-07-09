@@ -1,0 +1,60 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+<link rel="stylesheet" href="/styles/singleNews.css">
+<header class="article-header wrap">
+  <span class="eyebrow tag-econ"><%= result.category %></span>
+  <h1><%= result.title %></h1>
+  <p class="dek"><%= result.title %></p>
+
+  <div class="article-meta">
+    <div class="article-byline">
+    </div>
+    <div class="share-row">
+      <button aria-label="Share on X"><i class="fab fa-x-twitter"></i></button>
+      <button aria-label="Share via email"><i class="fas fa-envelope"></i></button>
+      <button aria-label="Copy link" id="copyLinkBtn"><i class="fas fa-link"></i></button>
+      <button aria-label="Print article" onclick="window.print()"><i class="fas fa-print"></i></button>
+    </div>
+  </div>
+</header>
+
+<div class="article-hero wrap">
+  <div class="photo" data-cap="Port terminal, southern coast — this morning">
+    <img src="<%= result.image_url %>" alt="<%= result.title %>">
+  </div>
+</div>
+
+<div class="article-body-wrap wrap">
+  <div class="article-body">
+    <p class="lede"><%= result.content %></p>
+    
+    <div class="tags-row">
+      <a href="#">Trade</a>
+      <a href="#">Logistics</a>
+      <a href="#">Ports</a>
+      <a href="#">Supply Chain</a>
+    </div>
+
+   
+  </div>
+
+  <aside class="article-rail">
+    <div class="sidebar-block">
+      <h4 class="sidebar-head">Most read</h4>
+      <ol class="ranked-list">
+        <% randomFive.forEach(function(item) { %>
+          <li>
+            <div>
+              <h4><a href="/news/<%= item.dataid %>"><%= item.title %></a></h4>
+              <span>Technology</span>
+            </div>
+          </li>
+        <% }); %>
+      </ol>
+    </div>
+  </aside>
+</div>
+
+<script src="/js/singleNews.js"></script>

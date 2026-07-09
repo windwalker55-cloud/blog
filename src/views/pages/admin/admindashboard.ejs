@@ -1,0 +1,166 @@
+<link rel="stylesheet" href="styles/admindashboard.css">
+
+<div class="admin-wrap">
+  <div class="desk-header">
+    <div>
+      <h1>Logo</h1>
+    </div>
+    <div class="admin-actions">
+      <span class="username"><i class="fas fa-user"></i> Admin</span>
+      <a href="/homepage"><i class="fas fa-globe"></i> View site</a>
+      <a href="/admin/logout" class="logout"><i class="fas fa-sign-out-alt"></i> Log out</a>
+    </div>
+  </div>
+
+  <div class="status-strip">
+    <div class="status-item">
+      <span class="num"><%= result.length %></span>
+      <span class="label">On the site</span>
+    </div>
+    <div class="status-item">
+      <span class="num"><%=result.length %></span>
+      <span class="label">Published</span>
+    </div>
+  </div>
+
+  <div class="toolbar">
+    <div class="toolbar-left">
+      <h2>All articles</h2>
+      <span><%=result.length %> articles</span>
+    </div>
+    <div class="toolbar-right">
+      <div class="search-box">
+        <i class="fas fa-search"></i>
+        <input type="text" id="searchInput" placeholder="Search titles…">
+      </div>
+      <button class="add-btn" onclick="document.getElementById('createForm').scrollIntoView({behavior:'smooth'})">
+        <i class="fas fa-plus"></i> New article
+      </button>
+    </div>
+  </div>
+
+  <div class="article-grid" id="articleGrid">
+    <div class="grid-header">
+      <span></span>
+      <span>Image</span>
+      <span>Title</span>
+      <span>Category</span>
+      <span>Created</span>
+      <span style="text-align:right;">Actions</span>
+    </div>
+
+    <% result.forEach(function(item, index) { %>
+      <div class="grid-item article-item" data-id="<%= item.dataid %>" data-title="<%= item.title.toLowerCase() %>" data-index="<%= index %>">
+        <span class="flag-col"><span class="cat-flag <%= item.category %>"></span></span>
+        <span class="image-col"><img src="<%= item.image_url %>" alt="<%= item.title %>" class="thumb" onerror="this.src='https://via.placeholder.com/52x36/15181F/FFFFFF?text=—'"></span>
+        <span class="title-col"><%= item.title %></span>
+        <span class="category-col"><%= item.category %></span>
+        <span class="date-col"><%= new Date(item.created_at).toLocaleDateString() %></span>
+        <span class="actions-col">
+          <button class="action-btn edit-btn" data-id="<%= item.dataid %>"><i class="fas fa-pen"></i></button>
+          <form method="POST" action="/deletedata/<%= item.dataid %>" class="action-form" onsubmit="return confirm('Are you sure you want to delete this article?')">
+            <button type="submit" class="action-btn delete"><i class="fas fa-trash"></i></button>
+          </form>
+        </span>
+      </div>
+      
+      <div class="edit-form-container edit-form" id="editForm_<%= item.dataid %>" data-id="<%= item.dataid %>">
+        <h3>Edit Article</h3>
+        <form method="POST" action="/updatedata/<%= item.dataid %>">
+          <div class="form-group">
+            <label for="edit_image_url_<%= item.dataid %>">Image URL</label>
+            <input type="text" id="edit_image_url_<%= item.dataid %>" name="image_url" value="<%= item.image_url %>" required>
+          </div>
+          <div class="form-group">
+            <label for="edit_title_<%= item.dataid %>">Title</label>
+            <input type="text" id="edit_title_<%= item.dataid %>" name="title" value="<%= item.title %>" required>
+          </div>
+          <div class="form-group">
+            <label for="edit_category_<%= item.dataid %>">Category</label>
+            <select id="edit_category_<%= item.dataid %>" name="category" required>
+              <option value="politics" <%= item.category === 'politics' ? 'selected' : '' %>>Politics</option>
+              <option value="crime" <%= item.category === 'crime' ? 'selected' : '' %>>Crime</option>
+              <option value="sports" <%= item.category === 'sports' ? 'selected' : '' %>>Sports</option>
+              <option value="entertainment" <%= item.category === 'entertainment' ? 'selected' : '' %>>Entertainment</option>
+              <option value="health" <%= item.category === 'health' ? 'selected' : '' %>>Health</option>
+              <option value="world" <%= item.category === 'world' ? 'selected' : '' %>>World</option>
+              <option value="religion" <%= item.category === 'religion' ? 'selected' : '' %>>Religion</option>
+              <option value="business" <%= item.category === 'business' ? 'selected' : '' %>>Business</option>
+              <option value="technology" <%= item.category === 'technology' ? 'selected' : '' %>>Technology</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="edit_content_<%= item.dataid %>">Content</label>
+            <textarea id="edit_content_<%= item.dataid %>" name="content" rows="4" required><%= item.content %></textarea>
+          </div>
+          <div class="form-actions">
+            <button type="button" class="btn-cancel-edit cancel-btn" data-id="<%= item.dataid %>">Cancel</button>
+            <button type="submit" class="btn-update"><i class="fas fa-save"></i> Update Article</button>
+          </div>
+        </form>
+      </div>
+    <% }); %>
+  </div>
+
+  <div class="load-more-wrap">
+    <button class="load-more-btn" id="loadMoreBtn">Load More</button>
+  </div>
+
+  <div id="createForm" class="create-form-section">
+    <h2>Create New Article</h2>
+    
+    <form method="POST" action="/createdata" class="create-form">
+      <div class="form-group">
+        <label for="image_url">Image URL</label>
+        <input type="text" id="image_url" name="image_url" placeholder="https://example.com/image.jpg" required>
+      </div>
+
+      <div class="form-group">
+        <label for="title">Title</label>
+        <input type="text" id="title" name="title" placeholder="Enter article title" required>
+      </div>
+
+      <div class="form-group">
+        <label for="category">Category</label>
+        <select id="category" name="category" required>
+          <option value="">Select category</option>
+          <option value="politics">Politics</option>
+          <option value="crime">Crime</option>
+          <option value="sports">Sports</option>
+          <option value="entertainment">Entertainment</option>
+          <option value="health">Health</option>
+          <option value="world">World</option>
+          <option value="religion">Religion</option>
+          <option value="business">Business</option>
+          <option value="technology">Technology</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="content">Content</label>
+        <textarea id="content" name="content" rows="6" placeholder="Write the full article content here…" required></textarea>
+      </div>
+
+      <button type="submit" class="submit-btn">
+        <i class="fas fa-save"></i> Publish Article
+      </button>
+    </form>
+  </div>
+</div>
+
+<footer class="admin-footer">
+  <i class="far fa-copyright"></i> 2026 The Dispatch — Independent Newsroom
+  <div class="footer-links">
+    <a href="#">Privacy policy</a>
+    <a href="#">Terms of service</a>
+    <a href="#">Cookie policy</a>
+    <a href="#">Accessibility</a>
+  </div>
+</footer>
+
+<div class="toast" id="toast">
+  <i class="fas fa-check-circle"></i>
+  <span id="toastMessage">Article saved.</span>
+</div>
+
+<script src="js/admindashboard.js"></script>
