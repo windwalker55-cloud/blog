@@ -9,6 +9,7 @@ class UserController{
         try {
             const {email, password}= req.body
             const result= await User.Login(email)
+            console.log(result)
             if(!result){
                 req.session.adminLoginError= "Incorrect email"
                 return res.redirect("/admin/login")
@@ -19,15 +20,13 @@ class UserController{
                 req.session.adminPasswordError= "Incorrect password"
                 return res.redirect("/admin/login")
             }
-            req.session.adminInfo=result
-            console.log(req.session.adminInfo)
-            //   console.log(result)
-            // console.log(req.session.userInfo.role)
-            // only admin
             if(result.role !== "admin"){
                 req.session.notPermitted="Unauthorized"
                 return res.redirect("/admin/login")
             }
+
+            req.session.adminInfo=result
+            
             return res.redirect("/admindashboard")
         } catch (error) {
             console.log(error.message)
@@ -74,12 +73,12 @@ class UserController{
             const {email,password}= req.body
             const result= await User.Login(email)
             if(!result){
-                req.session.incorrectEmail= "Email not found"
+                req.session.incorrectEmail= "invalid Credentials"
                  return res.redirect("/login")
             }
             const comparePassword= await bcrypt.compare(password, result.password)
             if(!comparePassword){
-                req.session.incorrectPassword="Invalid password"
+                req.session.incorrectPassword="invalid Credentials"
                 return res.redirect("/login")
             }
             req.session.userInfo = result

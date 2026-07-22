@@ -12,7 +12,10 @@ const path=require("path")
 
 
 // middleware
-app.use(express.json())
+
+// for json sending
+// app.use(express.json())
+
 app.use(express.urlencoded({
     extended:true
 }))
@@ -33,10 +36,7 @@ app.use(expressSession({
     }
 }))
 
-app.use((req, res, next)=>{
-    res.locals.userInfo=req.session.userInfo||null
-    next()
-})
+
 
 // static file
 app.use(express.static(path.join(__dirname, "src/public")))
@@ -49,6 +49,9 @@ app.set("layout", "layouts/layout")
 
 
 app.use(router)
+
+
+
 app.listen(PORT,  ()=>{
     console.log(`saver running at port ${PORT}`)
 })

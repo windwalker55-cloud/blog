@@ -57,10 +57,10 @@ class AllGetRequests{
     }
     async Homepage(req,res){
         const result= await DataCrud.DisplayData()
-         const result2= await DataCrud.DisplayData()
-           const randomFive= result2.sort(()=>{
+           const randomFive= result.sort(()=>{
             return Math.random()- 0.5
         }).slice(0,5)
+        console.log(Math.floor(Math.random()*result.length))
             const randomCaurosel= result[Math.floor(Math.random()*result.length)]
 
         res.render("pages/homepage",{layout:"layouts/homepage", result, randomFive, randomCaurosel})
@@ -81,9 +81,7 @@ class AllGetRequests{
     }
     async World(req,res){
          const result= await DataCrud.DisplayData()
-        
-         const result2= await DataCrud.DisplayData()
-         const randomFive= result2.sort(()=>{
+         const randomFive= result.sort(()=>{
             return Math.random()- 0.5
         }).slice(0,5)
         const randomCaurosel= result[Math.floor(Math.random()*result.length)]
@@ -92,8 +90,7 @@ class AllGetRequests{
 
     async Politics(req,res){
          const result= await DataCrud.DisplayData()
-         const result2= await DataCrud.DisplayData()
-         const randomFive= result2.sort(()=>{
+         const randomFive= result.sort(()=>{
             return Math.random()- 0.5
         }).slice(0,5)
         const randomCaurosel= result[Math.floor(Math.random()*result.length)]
@@ -103,8 +100,7 @@ class AllGetRequests{
 
      async Entertainment(req,res){
          const result= await DataCrud.DisplayData()
-         const result2= await DataCrud.DisplayData()
-         const randomFive= result2.sort(()=>{
+         const randomFive= result.sort(()=>{
             return Math.random()- 0.5
         }).slice(0,5)
         const randomCaurosel= result[Math.floor(Math.random()*result.length)]
@@ -113,8 +109,7 @@ class AllGetRequests{
     }
      async Sports(req,res){
          const result= await DataCrud.DisplayData()
-         const result2= await DataCrud.DisplayData()
-         const randomFive= result2.sort(()=>{
+         const randomFive= result.sort(()=>{
             return Math.random()- 0.5
         }).slice(0,5)
         const randomCaurosel= result[Math.floor(Math.random()*result.length)]

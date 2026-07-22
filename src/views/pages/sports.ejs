@@ -5,7 +5,7 @@
   <section class="front">
     <div class="lead-story">
       <div class="photo" data-cap="<%= randomCaurosel.title %>" style="height:420px;">
-        <img src="<%= randomCaurosel.image_url %>" alt="<%= randomCaurosel.title %>">
+        <img src="<%= randomCaurosel.image_url %>" alt="<%= randomCaurosel.title %>"loading="lazy">
       </div>
       <span class="eyebrow tag-econ"><%= randomCaurosel.category %></span>
       <h1><a href="/news/<%= randomCaurosel.dataid %>"><%= randomCaurosel.title %></a></h1>
@@ -54,7 +54,7 @@
         <% sportsItems.forEach(function(item) { %>
           <div class="card" data-title="<%= item.title.toLowerCase() %>">
             <div class="photo" data-cap="<%= item.category %>">
-              <img src="<%= item.image_url %>" alt="<%= item.title %>">
+              <img src="<%= item.image_url %>" alt="<%= item.title %>"loading="lazy">
             </div>
             <span class="eyebrow tag-world"><%= item.category %></span>
             <h3><a href="/news/<%= item.dataid %>"><%= item.title %></a></h3>

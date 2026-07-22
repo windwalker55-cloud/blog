@@ -4,7 +4,10 @@ const middleware = require("../middleware/middleware")
 const DataController= require("../controller/data")
 const page = require("../controller/page")
 
-
+router.use((req, res, next)=>{
+    res.locals.userInfo=req.session.userInfo||null
+    next()
+})
 
 router.post("/signup", UserController.Signup)
 router.post("/login", UserController.Login)
